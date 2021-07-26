@@ -22,7 +22,7 @@ def parse_function(eingabe):
             stop=False
         return parse_expr(kopie)
     except: 
-        return 'Error'
+        return 'Function not corretly formated'
     
 
 def bool_plot(message):
@@ -35,10 +35,14 @@ def parse_plot(string):
         second = string.find("'",first+1)
         if first!= -1 and second !=-1:
             return parse_function(string[first+1:second])
+        else:
+            return 'Function not correctly instantiated'
     return False
 
 
-
+def false_plot(message):
+    string = message.text
+    return type(parse_plot(string))==str
 
 def parse_integrate(string):
     if string[0:10]=='integrate ':
@@ -71,6 +75,11 @@ def bool_integrate(message):
     erg=parse_integrate(string)
     return type(erg)==list and erg[0]!='Error'
 
+def false_integration(message):
+    string = message.text
+    erg=parse_integrate(string)
+    return type(erg)!= bool and not(bool_integrate(message))
+
 def parse_derivation(string):
     if string[0:9]=='derivate ':
             pos_var=string.find('var')
@@ -96,3 +105,10 @@ def bool_derivation(message):
     erg=parse_derivation(string)
     return type(erg)==list and erg[0]!= 'Error'
 
+def false_derivation(message):
+    string = message.text
+    erg=parse_derivation(string)
+    return not(bool_derivation(message)) and type(erg)!=bool
+
+def rest(message):
+    return True

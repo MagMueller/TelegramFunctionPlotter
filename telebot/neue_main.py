@@ -13,12 +13,12 @@ bot = telebot.TeleBot(API_KEY)
 #test for /Greet in telegram
 @bot.message_handler(commands=['Greet'])
 def greet(message):
-  bot.reply_to(message, "Hey! Hows it going?")
+    bot.reply_to(message, "Hey! Hows it going?")
 
 #just hello
 @bot.message_handler(commands=['hello'])
 def hello(message):
-  bot.send_message(message.chat.id, "Hello!")
+    bot.send_message(message.chat.id, "Hello!")
 
 @bot.message_handler(commands=['bild'])
 def hello(message):
@@ -57,28 +57,52 @@ def derivate(message):
     bot.send_message(message.chat.id, rückgabe.replace('**','^'))
     
     
+@bot.message_handler(func=false_plot)
+def false_plot_awnser(message):
+    bot.send_message(message.chat.id, parse_plot(message.text))
+    
+    
+@bot.message_handler(func=false_integration)
+def false_intgration_awnser(message):
+    bot.send_message(message.chat.id, parse_integrate(message.text))
+    
+@bot.message_handler(func=false_derivation)
+def false_derivate_awnser(message):
+    bot.send_message(message.chat.id, parse_derivation(message.text))
+    
+
+@bot.message_handler(commands=['help','dir','start'])
+def help_message(message):
+    with open('dir_of_commands.txt','r') as f:
+        bot.send_message(message.chat.id, f.read())
+    
+    
+    
 def check_function(message):
-  print(message)
-  try:
-    print(message.text)
-    ans = eval(message.text)
-    print("eval ans: ", ans)
-    return True
-  except:
-    print("noo")
-    return False
+    print(message)
+    try:
+        print(message.text)
+        ans = eval(message.text)
+        print("eval ans: ", ans)
+        return type(ans) == int or type(ans) == float
+    except:
+        print("noo")
+        return False
 
 
 #this works with eval
 @bot.message_handler(func=check_function)
 def taschenrechner(message):
-  if message.text != None:
-    print("my ans: ", message.text)
-    bot.send_message(message.chat.id, message.text)
-  else:
-    bot.send_message(message.chat.id, "not valid")
+    if message.text != None:
+        print("my ans: ", message.text)
+        bot.send_message(message.chat.id, eval(message.text))
+    else:
+        bot.send_message(message.chat.id, "not valid")
 
 
+@bot.message_handler(func=rest)
+def default_awnser(message):
+        bot.send_message(message.chat.id, "Sorry, I can't understand what you send. Have a look at the /dir command")
 
 
 bot.polling()

@@ -1,0 +1,20 @@
+Hey, welcome to our litle Math Helper Bot!
+This is the commands you can use:
+
+To ingegrate:
+
+integrate 'your function'
+ 
+or 
+
+integrate 'your function' borders 'lower_border,upper_border'
+
+To derivate:
+
+derivate 'your funtion'
+
+or 
+
+derivate 'your funtion' var x
+
+When writing stuff
