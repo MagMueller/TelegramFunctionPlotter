@@ -1,3 +1,4 @@
+lines (11 sloc) 282 Bytes
 Hey, welcome to our litle Math Helper Bot!
 This is the commands you can use:
 
@@ -17,4 +18,25 @@ or
 
 derivate 'your funtion' var x
 
-When writing stuff
+To plot:
+
+plot 'your function'
+
+
+Use only variables x,y,z
+When telegram changes you inpiut frame you inbut with Backstaps (`)
+
+When only having a one dimensional function you can just send your function with like this:
+'your function'
+
+and then ask for simple plots, intregrals, derivates,
+
+just by tiping in 
+
+plot
+integrate
+derivate
+
+when you wan't to set the derivate or integral to your current function use the /set command
+
+To delelete the function stored use the /delete command

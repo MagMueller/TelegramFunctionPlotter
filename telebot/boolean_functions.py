@@ -24,6 +24,21 @@ def parse_function(eingabe):
     except: 
         return 'Function not corretly formated'
     
+def bool_function(message):
+    string = message.text
+    if string[0]=="'" and string.find("'",2)!=-1:
+        return type(parse_function(string[1:string.find("'",2)]))!= str
+    else:
+        return False
+      
+def function_command(message):
+    string = message.text
+    return get_switch()==True and string in ['derivate','plot','integrate']
+
+def missing(message):
+    string = message.text
+    return get_switch()==False and string in ['derivate','plot','integrate']
+
 
 def bool_plot(message):
     string = message.text
@@ -111,4 +126,22 @@ def false_derivation(message):
     return not(bool_derivation(message)) and type(erg)!=bool
 
 def rest(message):
+    return True
+
+def get_switch():
+    with open('temp/switch.txt','r') as f:
+        text = f.read()
+        return text == 'True'
+    
+def toggle_switch_positve():
+    with open('temp/switch.txt', 'w') as f:
+        f.write('True')
+        f.close()
+    return True
+  
+
+def toggle_switch_negative():
+    with open('temp/switch.txt', 'w') as f:
+        f.write('False')
+        f.close()
     return True
