@@ -15,8 +15,11 @@ def getting_buffer():
     """
     Input : Nothing
     Output: list of saved function from the buffer"""
-    try:
-        erg= eval(pickle.load(open("temp/buffer.dat","rb"))) # get the list
-        return [erg[0],parse_expr(erg[1])] # return with parsed function
-    except:
-        return [False, "Not a correct mathematical function"] # if it Failed return failure Message
+    erg= eval(pickle.load(open("temp/buffer.dat","rb"))) # get the list
+    if erg[0]==False:
+        return erg
+    else:
+        try:
+            return [erg[0],parse_expr(erg[1])] # return with parsed function
+        except:
+            return [False, "Not a correct mathematical function"] # if it Failed return failure Message
