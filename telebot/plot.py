@@ -18,7 +18,7 @@ def plot_func(Funktion,Interval=np.linspace(-10,10,50)):
             fig.savefig('temp/test.png')
             return True
         except:
-            return False
+            return 'Plotting failed'
         
     elif len(Funktion.atoms(Symbol))==1:
         try: 
@@ -28,5 +28,14 @@ def plot_func(Funktion,Interval=np.linspace(-10,10,50)):
             fig.savefig('temp/test.png')
             return True
         except:
-            return False
-    return False
+            return 'Plotting failed'
+    
+    else: 
+        try: 
+            f = lambda x : x-x+float(Funktion)
+            fig, ax = plt.subplots()
+            ax.plot(Interval,f(Interval))
+            fig.savefig('temp/test.png')
+            return True
+        except:
+            return 'Function not one or two dimensionals with out factors'

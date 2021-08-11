@@ -1,5 +1,5 @@
 from sympy import *
-
+import pickle
 x, y, z = symbols('x y z')
 
 def parse_function(eingabe):
@@ -26,23 +26,28 @@ def parse_function(eingabe):
     
 def bool_function(message):
     string = message.text
-    if string[0]=="'" and string.find("'",2)!=-1:
-        return type(parse_function(string[1:string.find("'",2)]))!= str
+    if string[0]=="'":
+        erg = ''
+        if  string.find("'",2)!=-1:
+            erg= parse_function(string[1:string.find("'",2)])
+        else:
+            erg = 'Function not correctly instantiated'
+        pickle.dump(str([(type(erg)!=str),str(erg)]),open("temp/buffer.dat","wb"))
+        return True
     else:
         return False
       
 def function_command(message):
     string = message.text
-    return get_switch()==True and string in ['derivate','plot','integrate']
-
-def missing(message):
-    string = message.text
-    return get_switch()==False and string in ['derivate','plot','integrate']
-
+    return string in ['derivate','plot','integrate']
 
 def bool_plot(message):
     string = message.text
-    return type(parse_plot(string))!= bool and type(parse_plot(string))!=str
+    erg = parse_plot(string)
+    if type(erg)!= bool:
+        pickle.dump(str([(type(erg)!=str),str(erg)]),open("temp/buffer.dat","wb"))
+        return True
+    return False 
 
 def parse_plot(string):
     if string[0:5]=='plot ':
@@ -54,20 +59,27 @@ def parse_plot(string):
             return 'Function not correctly instantiated'
     return False
 
-
-def false_plot(message):
+def bool_integrate(message):
     string = message.text
-    return type(parse_plot(string))==str
+    erg=parse_integrate(string)
+    if erg!= False:
+        pickle.dump(str([(type(erg)!=str),str(erg)]),open("temp/buffer.dat","wb"))
+        return True
+    else:
+        return False
+
 
 def parse_integrate(string):
     if string[0:10]=='integrate ':
         if string.find('borders')==-1:
-            first = 10
+            first = string.find("'")
             second = string.find("'",first+1)
             if first!= -1 and second !=-1:
                 return [parse_function(string[first+1:second])]
+            else:
+                return 'Function not correctly instantiated'
         else: 
-            first = 10
+            first = string.find("'")
             second = string.find("'",first+1)
             third = string.find("'",second+1)
             fourth = string.find("'",third+1)
@@ -81,67 +93,36 @@ def parse_integrate(string):
                     return 'Borders are not in the correct format'
                 if border2<border1:
                     return "Upper Burder can't have smaller value then lower"
-                print(string[first+1:second])
                 return [parse_function(string[first+1:second]),(border1,border2)]
+            else: 
+                return 'Function or borders are not correctly instantiated'      
     return False
             
-def bool_integrate(message):
-    string = message.text
-    erg=parse_integrate(string)
-    return type(erg)==list and erg[0]!='Error'
-
-def false_integration(message):
-    string = message.text
-    erg=parse_integrate(string)
-    return type(erg)!= bool and not(bool_integrate(message))
-
-def parse_derivation(string):
-    if string[0:9]=='derivate ':
-            pos_var=string.find('var')
-            if pos_var!=-1:
-                first = 9
-                second = string.find("'",first+1)
-                if pos_var+2 < len(string):
-                    if (string[pos_var+4]=='x' and string[first+1:second].find('x')!=-1) or (string[pos_var+4]=='y' and string[first+1:second].find('y')!=-1) or (string[pos_var+4]=='z' and string[first+1:second].find('z')!=-1): 
-                        return [parse_function(string[first+1:second]),string[pos_var+4]]
-                    else:
-                        return "Wrong variable given"
-                else:
-                    return "No Variable given"
-            else:
-                first = 9
-                second = string.find("'",first+1)
-                return [parse_function(string[first+1:second])]
-    return False
-
 
 def bool_derivation(message):
     string = message.text
     erg=parse_derivation(string)
-    return type(erg)==list and erg[0]!= 'Error'
+    if erg!= False:
+        pickle.dump(str([(type(erg)!=str),str(erg)]),open("temp/buffer.dat","wb"))
+        return True
+    else:
+        return False
 
-def false_derivation(message):
-    string = message.text
-    erg=parse_derivation(string)
-    return not(bool_derivation(message)) and type(erg)!=bool
+def parse_derivation(string):
+    if string[0:9]=='derivate ':
+        first = string.find("'")
+        second = string.find("'",first+1)
+        if first!= -1 and second !=-1:
+            pos_var=string.find('var')
+            if pos_var!=-1:
+                if pos_var+4 < len(string) and (string[pos_var+4]=='x' or string[pos_var+4]=='y' or string[pos_var+4]=='z'):
+                    return [parse_function(string[first+1:second]),string[pos_var+4]]
+                else:
+                    return "No or wrong Variable given"
+            else:
+                return [parse_function(string[first+1:second])]
+        else:
+            return 'Function not correctly instantiated'
+    return False
 
-def rest(message):
-    return True
 
-def get_switch():
-    with open('temp/switch.txt','r') as f:
-        text = f.read()
-        return text == 'True'
-    
-def toggle_switch_positve():
-    with open('temp/switch.txt', 'w') as f:
-        f.write('True')
-        f.close()
-    return True
-  
-
-def toggle_switch_negative():
-    with open('temp/switch.txt', 'w') as f:
-        f.write('False')
-        f.close()
-    return True
