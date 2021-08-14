@@ -1,41 +1,47 @@
-Hey, welcome to our litle Math Helper Bot!
+Hey, welcome to our Math Helper Bot!
 This is the commands you can use:
 
-To ingegrate:
+- To ingegrate:
+    integrate 'your function'
+    example: integrate '4x'
 
-integrate 'your function'
- 
-or 
+    integrate 'your function' borders 'lower_border,upper_border'
+    example: integrate 'x^2 + 4' borders '3.5,5'
 
-integrate 'your function' borders 'lower_border,upper_border'
+- To derivate:
+    derivate 'your funtion'
+    example: derivate '4x'
 
-To derivate:
+    derivate 'your funtion' var x
+    example: derivate '4y + 3x' var x
 
-derivate 'your funtion'
-
-or 
-
-derivate 'your funtion' var x
-
-To plot:
-
-plot 'your function'
+- To plot:
+    plot 'your function'
+    example: plot '4y + 3x**2'
 
 
 Use only variables x,y,z
-When telegram changes you inpiut frame you inbut with Backstaps (`)
+When telegram changes your input frame, write your input with Backstaps (`)
 
-When only having a one dimensional function you can just send your function with like this:
+When only having a one dimensional function you can just send your function like this:
 'your function'
 
-and then ask for simple plots, intregrals, derivates,
+and then ask for simple plots, integrals and derivates,
+just by typing in
 
-just by tiping in 
+- plot
+- integrate
+- derivate
 
-plot
-integrate
-derivate
+storing:
+when you wan't to set the derivate or integral to your current function use the /set command.
+    - example:
+        derivate 'x**2'
+        /set
+        plot
 
-when you wan't to set the derivate or integral to your current function use the /set command
+deleting:
+To delete the function stored use the /delete command.
 
-To delelete the function stored use the /delete command
+
+Have fun!
