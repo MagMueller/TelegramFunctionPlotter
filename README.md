@@ -1,5 +1,5 @@
 # TelegramFunctionPlotter
-## Run the code
+## Quickstart
 - install all requirements (requirements.txt)
 - run main.py
 - open Telegram @scipy_math_helper_bot
