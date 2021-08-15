@@ -18,6 +18,7 @@ This is the commands you can use:
 - To plot:
     plot 'your function'
     example: plot '4y + 3x**2'
+    example: plot 'sin(x) + sin(y)'
 
 
 Use only variables x,y,z
