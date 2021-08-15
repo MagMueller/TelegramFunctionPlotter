@@ -5,4 +5,4 @@
 - open Telegram @scipy_math_helper_bot
 - Have fun! 
 
-For more information go to SciyPyProject.ipynb
+Our documentation is in SciyPyProject.ipynb
