@@ -10,21 +10,25 @@ def parse_function(eingabe):
     This function tries to parse an incomming string to an sympy expr
     First we replace inputs like "x2" to "x*2" because sympy would interpret "x2" as an x with the specifier 2
     """
-    try: 
-        kopie=eingabe.replace('^','**') 
+    try:
+        kopie = eingabe.replace('^', '**')
         stop = True
-        while(stop): # This loop replaces  "x2" to "x*2" 
-            for pos,letter in enumerate(kopie):
+        while (stop):  # This loop replaces  "x2" to "x*2"
+            change = False
+            for pos, letter in enumerate(kopie):
                 if letter.isnumeric():
-                    if pos!=0:
-                        if kopie[pos-1] in ['x','y','z']: # if we find eg. an x next to a number we insert an *
-                            kopie=kopie[:pos]+'*'+kopie[pos:]
+                    if pos != 0:
+                        if kopie[pos - 1] in ['x', 'y', 'z']:  # if we find eg. an x next to a number we insert an *
+                            kopie = kopie[:pos] + '*' + kopie[pos:]
+                            change = True
                             break
-                    if pos!=len(kopie)-1:
-                        if kopie[pos+1] in ['x','y','z']:
-                            kopie=kopie[:pos+1]+'*'+kopie[pos+1:]
+                    if pos != len(kopie) - 1:
+                        if kopie[pos + 1] in ['x', 'y', 'z']:
+                            kopie = kopie[:pos + 1] + '*' + kopie[pos + 1:]
+                            change = True
                             break
-            stop=False
+            if not change:
+                stop = False
         return parse_expr(kopie) # Then we use the sympy function parse_expr to transform the input to a sympy expr
     except: 
         return 'Function not corretly formated' # If it failed we return a failure message

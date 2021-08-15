@@ -5,6 +5,7 @@ from math_part import *
 from saving_data import *
 import pickle
 
+print("start")
 
 API_KEY = "1913464534:AAGjZ9gC5KQmRiAjd-YWCAjhkKYGIpU6SBM" # specify our API
 bot = telebot.TeleBot(API_KEY) # create a bot
